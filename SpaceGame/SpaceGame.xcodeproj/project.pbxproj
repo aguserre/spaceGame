@@ -15,6 +15,9 @@
 		0FA600AE23B828B8004A9176 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600AC23B828B8004A9176 /* Main.storyboard */; };
 		0FA600B023B828BA004A9176 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600AF23B828BA004A9176 /* Assets.xcassets */; };
 		0FA600B323B828BA004A9176 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */; };
+		0FA600BD23B82BB6004A9176 /* loose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600BA23B82BB5004A9176 /* loose.mp3 */; };
+		0FA600BE23B82BB6004A9176 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600BB23B82BB5004A9176 /* explosion.mp3 */; };
+		0FA600BF23B82BB6004A9176 /* shotSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600BC23B82BB6004A9176 /* shotSound.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		0FA600AF23B828BA004A9176 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FA600B223B828BA004A9176 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA600B423B828BA004A9176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FA600BA23B82BB5004A9176 /* loose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = loose.mp3; sourceTree = "<group>"; };
+		0FA600BB23B82BB5004A9176 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
+		0FA600BC23B82BB6004A9176 /* shotSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shotSound.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,9 @@
 				0FA600AA23B828B8004A9176 /* GameViewController.swift */,
 				0FA600AC23B828B8004A9176 /* Main.storyboard */,
 				0FA600AF23B828BA004A9176 /* Assets.xcassets */,
+				0FA600BB23B82BB5004A9176 /* explosion.mp3 */,
+				0FA600BA23B82BB5004A9176 /* loose.mp3 */,
+				0FA600BC23B82BB6004A9176 /* shotSound.mp3 */,
 				0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */,
 				0FA600B423B828BA004A9176 /* Info.plist */,
 			);
@@ -132,8 +141,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FA600AE23B828B8004A9176 /* Main.storyboard in Resources */,
+				0FA600BD23B82BB6004A9176 /* loose.mp3 in Resources */,
+				0FA600BF23B82BB6004A9176 /* shotSound.mp3 in Resources */,
 				0FA600A523B828B8004A9176 /* GameScene.sks in Resources */,
 				0FA600B023B828BA004A9176 /* Assets.xcassets in Resources */,
+				0FA600BE23B82BB6004A9176 /* explosion.mp3 in Resources */,
 				0FA600B323B828BA004A9176 /* LaunchScreen.storyboard in Resources */,
 				0FA600A723B828B8004A9176 /* Actions.sks in Resources */,
 			);
@@ -295,6 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QT76JFT465;
 				INFOPLIST_FILE = SpaceGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +315,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nitsuga.dev.SpaceGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -313,6 +326,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QT76JFT465;
 				INFOPLIST_FILE = SpaceGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -320,7 +334,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nitsuga.dev.SpaceGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
