@@ -9,11 +9,17 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    struct PhysicsCategories {
+        static let None: UInt32 = 0
+        static let Player: UInt32 = 0b1 //1
+        static let Bullet: UInt32 = 0b10 //2
+        static let Enemy: UInt32 = 0b100 //4
+    }
     
     var gameArea: CGRect
     override init (size: CGSize) {
-        
         let maxAspectRatio : CGFloat = 16.0/9.0
         let playableWidth = size.height / maxAspectRatio
         let margin = (size.width - playableWidth) / 2
@@ -28,9 +34,10 @@ class GameScene: SKScene {
     
     let player = SKSpriteNode(imageNamed: "player")
     let bulletSound = SKAction.playSoundFileNamed("shotSound.mp3", waitForCompletion: false)
+    let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
 
     override func didMove(to view: SKView) {
-        
+        self.physicsWorld.contactDelegate = self
         //SetUp background
         let background = SKSpriteNode(imageNamed: "background")
         background.size = self.size
@@ -42,9 +49,70 @@ class GameScene: SKScene {
         player.setScale(3)
         player.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.2)
         player.zPosition = 2
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
+        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.categoryBitMask = PhysicsCategories.Player
+        player.physicsBody?.collisionBitMask = PhysicsCategories.None
+        player.physicsBody?.contactTestBitMask = PhysicsCategories.Enemy
         self.addChild(player)
         
+        startNewLevel()
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        var body1 = SKPhysicsBody()
+        var body2 = SKPhysicsBody()
         
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            body1 = contact.bodyA
+            body2 = contact.bodyB
+        } else {
+            body1 = contact.bodyB
+            body2 = contact.bodyA
+        }
+        
+        if body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Enemy {
+            //Player hit the enemy
+            if body1.node != nil{
+                spawnExplosion(spawnPosition: body1.node!.position)
+            }
+            if body2.node != nil {
+                spawnExplosion(spawnPosition: body2.node!.position)
+            }
+            
+            body1.node?.removeFromParent()
+            body2.node?.removeFromParent()
+            
+        }
+        if body1.categoryBitMask == PhysicsCategories.Bullet && body2.categoryBitMask == PhysicsCategories.Enemy  && (body2.node?.position.y)! < self.size.height{
+            //bullet hit the enemy
+            if body2.node != nil {
+                spawnExplosion(spawnPosition: body2.node!.position)
+            }
+            body1.node?.removeFromParent()
+            body2.node?.removeFromParent()
+            
+        }
+        
+    }
+    
+    func spawnExplosion(spawnPosition: CGPoint){
+        let explosion = SKEmitterNode(fileNamed: "Explosion")!
+        explosion.position = spawnPosition
+        explosion.zPosition = 3
+        self.addChild(explosion)
+        
+        let explosionSequence = SKAction.sequence([explosionSound])
+        explosion.run(explosionSequence)
+        
+    }
+    
+    func startNewLevel() {
+        let spawn = SKAction.run(spawnEnemy)
+        let waitToSpawn = SKAction.wait(forDuration: 1)
+        let spawnSequence = SKAction.sequence([spawn, waitToSpawn])
+        let spawnForEver = SKAction.repeatForever(spawnSequence)
+        self.run(spawnForEver)
     }
     
     func fireBullet(){
@@ -52,6 +120,11 @@ class GameScene: SKScene {
         bullet.setScale(1)
         bullet.position = player.position
         bullet.zPosition = 1
+        bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody?.categoryBitMask = PhysicsCategories.Bullet
+        bullet.physicsBody?.collisionBitMask = PhysicsCategories.None
+        bullet.physicsBody?.contactTestBitMask = PhysicsCategories.Enemy
         self.addChild(bullet)
         
         let moveBullet = SKAction.moveTo(y: self.size.height + bullet.size.height, duration: 1)
@@ -59,6 +132,45 @@ class GameScene: SKScene {
         
         let bulletSequence = SKAction.sequence([bulletSound, moveBullet, deleteBullet])
         bullet.run(bulletSequence)
+    }
+    
+    func random() -> CGFloat {
+        return CGFloat(Float(arc4random())) / 0xFFFFFFFF
+    }
+    
+    func randomNumber(min: CGFloat, max: CGFloat) -> CGFloat {
+        return random() * (max - min) + min
+    }
+    
+    
+    
+    func spawnEnemy(){
+        let randomXStart = randomNumber(min: gameArea.minX, max: gameArea.maxX)
+        let randomXEnd = randomNumber(min: gameArea.minX, max: gameArea.maxX)
+        let startPoint = CGPoint(x: randomXStart, y: self.size.height * 1.2)
+        let endPoint = CGPoint(x: randomXEnd, y: -self.size.height * 0.2)
+        
+        let enemy = SKSpriteNode(imageNamed: "enemy1")
+        enemy.setScale(3)
+        enemy.position = startPoint
+        enemy.zPosition = 2
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        enemy.physicsBody?.affectedByGravity = false
+        enemy.physicsBody?.categoryBitMask = PhysicsCategories.Enemy
+        enemy.physicsBody?.collisionBitMask = PhysicsCategories.None
+        enemy.physicsBody?.contactTestBitMask = PhysicsCategories.Player | PhysicsCategories.Bullet
+        self.addChild(enemy)
+        
+        //Enemy velocity
+        let moveEnemy = SKAction.move(to: endPoint, duration: 1.5)
+        let deleteEnemy = SKAction.removeFromParent()
+        let enemySequence = SKAction.sequence([moveEnemy, deleteEnemy])
+        enemy.run(enemySequence)
+        
+        let dx = endPoint.x - startPoint.x
+        let dy = endPoint.y - startPoint.y
+        let amountToRotate = atan2(dy, dx)
+        enemy.zRotation = amountToRotate
         
     }
     
@@ -75,11 +187,11 @@ class GameScene: SKScene {
             
             player.position.x += amountDragged
             
-            if player.position.x > gameArea.maxX {
-                player.position.x = gameArea.maxX
+            if player.position.x > gameArea.maxX - player.size.width / 2 {
+                player.position.x = gameArea.maxX - player.size.width / 2
             }
-            if player.position.x < gameArea.minX {
-                player.position.x = gameArea.minX
+            if player.position.x < gameArea.minX + player.size.width / 2{
+                player.position.x = gameArea.minX + player.size.width / 2
             }
             
         }
