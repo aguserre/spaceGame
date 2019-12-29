@@ -45,7 +45,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: "player")
     let bulletSound = SKAction.playSoundFileNamed("shotSound.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
-
+    
+    enum gameState{
+        case preGame
+        case inGame
+        case afterGame
+    }
+    
+    var currentGameState = gameState.inGame
+    
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         //SetUp background
@@ -93,6 +101,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let scaleDown = SKAction.scale(to: 1, duration: 0.2)
         let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
         livesLabel.run(scaleSequence)
+        
+        if livesNumber == 0{
+            runGameOver()
+        }
     }
     
     func addScore(){
@@ -102,6 +114,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameScore == 10 || gameScore == 30 || gameScore == 60 {
             startNewLevel()
         }
+        
+    }
+    
+    func runGameOver(){
+        
+        currentGameState = .afterGame
+        
+        self.removeAllActions()
+        
+        self.enumerateChildNodes(withName: "Bullet") { bullet, stop in
+            bullet.removeAllActions()
+        }
+        self.enumerateChildNodes(withName: "Enemy") { enemy, stop in
+            enemy.removeAllActions()
+        }
+        
+        let changeSceneAction = SKAction.run(changeScene)
+        let waitToChangeScene = SKAction.wait(forDuration: 1)
+        let changeSceneSequence = SKAction.sequence([waitToChangeScene,changeSceneAction])
+        self.run(changeSceneSequence)
+        
         
     }
     
@@ -129,6 +162,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             body1.node?.removeFromParent()
             body2.node?.removeFromParent()
             
+            runGameOver()
+            
         }
         if body1.categoryBitMask == PhysicsCategories.Bullet && body2.categoryBitMask == PhysicsCategories.Enemy  && (body2.node?.position.y)! < self.size.height{
             //bullet hit the enemy
@@ -138,7 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             body1.node?.removeFromParent()
             body2.node?.removeFromParent()
-            
+                        
         }
         
     }
@@ -179,6 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fireBullet(){
         let bullet = SKSpriteNode(imageNamed: "torpedo")
+        bullet.name = "Bullet"
         bullet.setScale(1)
         bullet.position = player.position
         bullet.zPosition = 1
@@ -215,7 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: enemies) as! [String]
         
         let enemy = SKSpriteNode(imageNamed: enemies[0])
-        
+        enemy.name = "Enemy"
         enemy.setScale(3)
         enemy.position = startPoint
         enemy.zPosition = 2
@@ -231,7 +267,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let deleteEnemy = SKAction.removeFromParent()
         let loseAlifeAction = SKAction.run(loseAlife)
         let enemySequence = SKAction.sequence([moveEnemy, deleteEnemy, loseAlifeAction])
-        enemy.run(enemySequence)
+        
+        if currentGameState == .inGame{
+            enemy.run(enemySequence)
+        }
         
         let dx = endPoint.x - startPoint.x
         let dy = endPoint.y - startPoint.y
@@ -241,7 +280,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        fireBullet()
+        if currentGameState == .inGame {
+            fireBullet()
+        }
     }
         
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -251,7 +292,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let amountDragged = pointOfTouch.x - previousPointOfTouch.x
             
-            player.position.x += amountDragged
+            if currentGameState == .inGame{
+                player.position.x += amountDragged
+            }
             
             if player.position.x > gameArea.maxX - player.size.width / 2 {
                 player.position.x = gameArea.maxX - player.size.width / 2
@@ -261,5 +304,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+    }
+    
+    func changeScene(){
+        let sceneToMoveTo = GameOverScene(size: self.size)
+        sceneToMoveTo.scaleMode = self.scaleMode
+        let transition = SKTransition.fade(withDuration: 0.5)
+        self.view?.presentScene(sceneToMoveTo, transition: transition)
+        
+        
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F06A76F23B93A360055DBCD /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A76E23B93A360055DBCD /* GameOverScene.swift */; };
 		0FA600A323B828B8004A9176 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA600A223B828B8004A9176 /* AppDelegate.swift */; };
 		0FA600A523B828B8004A9176 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600A423B828B8004A9176 /* GameScene.sks */; };
 		0FA600A723B828B8004A9176 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600A623B828B8004A9176 /* Actions.sks */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F06A76E23B93A360055DBCD /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		0FA6009F23B828B8004A9176 /* SpaceGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA600A223B828B8004A9176 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FA600A423B828B8004A9176 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -72,7 +74,6 @@
 				0FA600A423B828B8004A9176 /* GameScene.sks */,
 				0FA600A623B828B8004A9176 /* Actions.sks */,
 				0FA600C023B85242004A9176 /* Explosion.sks */,
-				0FA600A823B828B8004A9176 /* GameScene.swift */,
 				0FA600AA23B828B8004A9176 /* GameViewController.swift */,
 				0FA600AC23B828B8004A9176 /* Main.storyboard */,
 				0FA600AF23B828BA004A9176 /* Assets.xcassets */,
@@ -81,6 +82,8 @@
 				0FA600BC23B82BB6004A9176 /* shotSound.mp3 */,
 				0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */,
 				0FA600B423B828BA004A9176 /* Info.plist */,
+				0FA600A823B828B8004A9176 /* GameScene.swift */,
+				0F06A76E23B93A360055DBCD /* GameOverScene.swift */,
 			);
 			path = SpaceGame;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 			files = (
 				0FA600A923B828B8004A9176 /* GameScene.swift in Sources */,
 				0FA600AB23B828B8004A9176 /* GameViewController.swift in Sources */,
+				0F06A76F23B93A360055DBCD /* GameOverScene.swift in Sources */,
 				0FA600A323B828B8004A9176 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
