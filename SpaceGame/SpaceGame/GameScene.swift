@@ -19,6 +19,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var levelNumber = 0
     
+    var enemies = ["enemy1","enemy2","enemy3"]
+    
     struct PhysicsCategories {
         static let None: UInt32 = 0
         static let Player: UInt32 = 0b1 //1
@@ -55,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //SetUp Player
         player.setScale(3)
-        player.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.2)
+        player.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.15)
         player.zPosition = 2
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.affectedByGravity = false
@@ -210,7 +212,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startPoint = CGPoint(x: randomXStart, y: self.size.height * 1.2)
         let endPoint = CGPoint(x: randomXEnd, y: -self.size.height * 0.2)
         
-        let enemy = SKSpriteNode(imageNamed: "enemy1")
+        enemies = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: enemies) as! [String]
+        
+        let enemy = SKSpriteNode(imageNamed: enemies[0])
+        
         enemy.setScale(3)
         enemy.position = startPoint
         enemy.zPosition = 2
