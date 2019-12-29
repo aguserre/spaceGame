@@ -9,10 +9,11 @@
 import SpriteKit
 import GameplayKit
 
+var gameScore = 0
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let scoreLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-    var gameScore = 0
 
     let livesLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     var livesNumber = 3
@@ -55,6 +56,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentGameState = gameState.inGame
     
     override func didMove(to view: SKView) {
+        
+        gameScore = 0
+        
         self.physicsWorld.contactDelegate = self
         //SetUp background
         let background = SKSpriteNode(imageNamed: "background")
