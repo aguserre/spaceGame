@@ -45,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case .iPhoneSE, .iPhone6, .iPhone6S, .iPhone6Plus, .iPhone6SPlus, .iPhone7, .iPhone7Plus, .iPhone8, .iPhone8Plus:
             maxAspectRatio = 16.0/9
         default:
-            maxAspectRatio = 19.5/9
+            maxAspectRatio = 16.0/9
         }
         
         let playableWidth = size.height / maxAspectRatio
