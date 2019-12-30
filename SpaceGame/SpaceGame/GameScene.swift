@@ -32,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         static let Player: UInt32 = 0b1 //1
         static let Bullet: UInt32 = 0b10 //2
         static let Enemy: UInt32 = 0b100 //4
+        static let Live: UInt32 = 0b101 //5
     }
     
     var gameArea: CGRect
@@ -101,7 +102,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.affectedByGravity = false
         player.physicsBody?.categoryBitMask = PhysicsCategories.Player
         player.physicsBody?.collisionBitMask = PhysicsCategories.None
-        player.physicsBody?.contactTestBitMask = PhysicsCategories.Enemy
+        player.physicsBody?.contactTestBitMask = PhysicsCategories.Enemy | PhysicsCategories.Live
         self.addChild(player)
         
         scoreLabel.text = "Score: 0"
@@ -178,8 +179,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startLevelAction = SKAction.run(startNewLevel)
         let startGameSequence = SKAction.sequence([moveShipOnToScreenAction,startLevelAction])
         player.run(startGameSequence)
-        
-        
     }
     
     func loseAlife (){
@@ -193,8 +192,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if livesNumber == 0{
             runGameOver()
-            
         }
+    }
+    
+    func addLife(){
+        livesNumber += 1
+        livesLabel.text = "Lives: \(livesNumber)"
+        
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+        let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
+        livesLabel.run(scaleSequence)
     }
     
     func addScore(){
@@ -242,13 +250,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.enumerateChildNodes(withName: "Enemy") { enemy, stop in
             enemy.removeAllActions()
         }
+        self.enumerateChildNodes(withName: "Live") { live, stop in
+            live.removeAllActions()
+        }
         
         let changeSceneAction = SKAction.run(changeScene)
         let waitToChangeScene = SKAction.wait(forDuration: 1)
         let changeSceneSequence = SKAction.sequence([waitToChangeScene,changeSceneAction])
         self.run(changeSceneSequence)
-        
-        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -276,8 +285,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             body2.node?.removeFromParent()
             
             runGameOver()
-            
         }
+        
+        if body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Live {
+            //Bullet hit life
+            addLife()
+            if body2.node != nil {
+                //Add sound live add
+            }
+            body2.node?.removeFromParent()
+        }
+        
         if body1.categoryBitMask == PhysicsCategories.Bullet && body2.categoryBitMask == PhysicsCategories.Enemy  && (body2.node?.position.y)! < self.size.height{
             //bullet hit the enemy
             addScore()
@@ -290,7 +308,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             return
         }
-        
     }
     
     func spawnExplosion(spawnPosition: CGPoint){
@@ -301,7 +318,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let explosionSequence = SKAction.sequence([explosionSound])
         explosion.run(explosionSequence)
-        
     }
     
     func startNewLevel() {
@@ -309,8 +325,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.action(forKey: "spawnEnemies") != nil {
             self.removeAction(forKey: "spawnEnemies")
         }
+        if self.action(forKey: "spawnLives") != nil {
+            self.removeAction(forKey: "spawnLives")
+        }
         
         var levelDuration = TimeInterval()
+        let liveSpawnDuration: TimeInterval = 5
+        
         switch levelNumber {
         case 1: levelDuration = 3
         case 2: levelDuration = 2
@@ -322,10 +343,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let spawn = SKAction.run(spawnEnemy)
+        let spawnLives = SKAction.run(spawnLive)
+        
         let waitToSpawn = SKAction.wait(forDuration: levelDuration)
+        let waitToSpawnLives = SKAction.wait(forDuration: liveSpawnDuration)
+        
         let spawnSequence = SKAction.sequence([waitToSpawn, spawn])
+        let liveSpawnSequence = SKAction.sequence([waitToSpawnLives, spawnLives])
+        
         let spawnForEver = SKAction.repeatForever(spawnSequence)
+        let spawnLivesForEver = SKAction.repeatForever(liveSpawnSequence)
+        
         self.run(spawnForEver, withKey: "spawnEnemies")
+        self.run(spawnLivesForEver, withKey: "spawnLives")
     }
     
     func fireBullet(){
@@ -356,7 +386,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    
+    func spawnLive(){
+        let randomXStart = randomNumber(min: gameArea.minX, max: gameArea.maxX)
+        let randomXEnd = randomNumber(min: gameArea.minX, max: gameArea.maxX)
+        let startPoint = CGPoint(x: randomXStart, y: self.size.height * 1.2)
+        let endPoint = CGPoint(x: randomXEnd, y: -self.size.height * 0.2)
+                
+        let live = SKSpriteNode(imageNamed: "live")
+        live.name = "Live"
+        live.setScale(2)
+        live.position = startPoint
+        live.zPosition = 2
+        live.physicsBody = SKPhysicsBody(rectangleOf: live.size)
+        live.physicsBody?.affectedByGravity = false
+        live.physicsBody?.categoryBitMask = PhysicsCategories.Live
+        live.physicsBody?.collisionBitMask = PhysicsCategories.None
+        live.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        self.addChild(live)
+        
+        //Live velocity
+        let moveLive = SKAction.move(to: endPoint, duration: 3)
+        let deleteLive = SKAction.removeFromParent()
+        let liveSequence = SKAction.sequence([moveLive, deleteLive])
+        
+        if currentGameState == .inGame{
+            live.run(liveSequence)
+        }
+        
+        let dx = endPoint.x - startPoint.x
+        let dy = endPoint.y - startPoint.y
+        let amountToRotate = atan2(dy, dx)
+        live.zRotation = amountToRotate
+    }
     
     func spawnEnemy(){
         let randomXStart = randomNumber(min: gameArea.minX, max: gameArea.maxX)
@@ -392,7 +453,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let dy = endPoint.y - startPoint.y
         let amountToRotate = atan2(dy, dx)
         enemy.zRotation = amountToRotate
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -404,7 +464,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let moveOnToScreenActionLevel = SKAction.moveTo(y: self.size.height*0.93, duration: 0.3)
         LevelLabel.run(moveOnToScreenActionLevel)
-        
     }
         
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -424,7 +483,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if player.position.x < gameArea.minX + player.size.width / 2{
                 player.position.x = gameArea.minX + player.size.width / 2
             }
-            
         }
     }
     
@@ -434,11 +492,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let transition = SKTransition.fade(withDuration: 0.5)
         self.view?.presentScene(sceneToMoveTo, transition: transition)
         
-        
     }
     
-    
-}//END
+}
 
 public enum Model : String {
 
