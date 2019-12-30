@@ -50,6 +50,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: "player")
     let bulletSound = SKAction.playSoundFileNamed("shotSound.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
+    let looseSound = SKAction.playSoundFileNamed("loose.mp3", waitForCompletion: false)
+
     let tapToStartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     
     enum gameState{
@@ -171,6 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if livesNumber == 0{
             runGameOver()
+            
         }
     }
     
