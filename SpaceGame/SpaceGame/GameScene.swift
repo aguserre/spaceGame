@@ -115,7 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         LevelLabel.text = "Level: 1"
         LevelLabel.fontSize = 50
-        LevelLabel.fontColor = SKColor.white
+        LevelLabel.fontColor = SKColor.systemPink
         LevelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         LevelLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.93 + LevelLabel.frame.size.height*4)
         LevelLabel.zPosition = 100
@@ -190,9 +190,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameScore += 1
         scoreLabel.text = "Score: \(gameScore)"
         
-        if gameScore == 3 || gameScore == 7 || gameScore == 15 || gameScore == 25 || gameScore == 40 {
-            LevelLabel.text = "Level: \(levelNumber)"
-            startNewLevel()
+        if gameScore == 3 ||    //level 2
+            gameScore == 7 ||   //level 3
+            gameScore == 15 ||  //level 4
+            gameScore == 25 ||  //level 5
+            gameScore == 40 {   //level 6
+                LevelLabel.text = "Level: \(levelNumber)"
+                changeEnemies()
+                startNewLevel()
+        }
+    }
+    
+    func changeEnemies(){
+        enemies.removeAll()
+        switch levelNumber {
+        case 1:
+            return
+        case 2:
+            enemies = ["enemy4"]
+        case 3:
+            enemies = ["enemy5"]
+        case 4:
+            enemies = ["enemy6"]
+        case 5:
+            enemies = ["enemy7"]
+        default:
+            enemies = ["enemy4" ,"enemy5" ,"enemy6", "enemy7"]
         }
     }
     
@@ -281,9 +304,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1: levelDuration = 3
         case 2: levelDuration = 2
         case 3: levelDuration = 1
-        case 4: levelDuration = 0.7
-        case 5: levelDuration = 0.3
-        default: levelDuration = 0.3
+        case 4: levelDuration = 0.8
+        case 5: levelDuration = 0.5
+        default: levelDuration = 0.5
             print("Cannont find level")
         }
         
