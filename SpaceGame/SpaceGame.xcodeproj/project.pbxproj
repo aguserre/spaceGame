@@ -55,6 +55,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F06A77623BA91F00055DBCD /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				0F06A77423BA63580055DBCD /* backingSound.mp3 */,
+				0FA600BB23B82BB5004A9176 /* explosion.mp3 */,
+				0FA600BA23B82BB5004A9176 /* loose.mp3 */,
+				0FA600BC23B82BB6004A9176 /* shotSound.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		0F06A77723BA92000055DBCD /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				0F06A77023B983770055DBCD /* MainMenuScene.swift */,
+				0FA600A823B828B8004A9176 /* GameScene.swift */,
+				0F06A76E23B93A360055DBCD /* GameOverScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		0F06A77823BA92210055DBCD /* Emiters */ = {
+			isa = PBXGroup;
+			children = (
+				0FA600A423B828B8004A9176 /* GameScene.sks */,
+				0FA600A623B828B8004A9176 /* Actions.sks */,
+				0FA600C023B85242004A9176 /* Explosion.sks */,
+			);
+			path = Emiters;
+			sourceTree = "<group>";
+		};
 		0FA6009623B828B8004A9176 = {
 			isa = PBXGroup;
 			children = (
@@ -74,22 +105,15 @@
 		0FA600A123B828B8004A9176 /* SpaceGame */ = {
 			isa = PBXGroup;
 			children = (
+				0FA600B423B828BA004A9176 /* Info.plist */,
 				0FA600A223B828B8004A9176 /* AppDelegate.swift */,
-				0FA600A423B828B8004A9176 /* GameScene.sks */,
-				0FA600A623B828B8004A9176 /* Actions.sks */,
-				0FA600C023B85242004A9176 /* Explosion.sks */,
 				0FA600AA23B828B8004A9176 /* GameViewController.swift */,
+				0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */,
 				0FA600AC23B828B8004A9176 /* Main.storyboard */,
 				0FA600AF23B828BA004A9176 /* Assets.xcassets */,
-				0F06A77423BA63580055DBCD /* backingSound.mp3 */,
-				0FA600BB23B82BB5004A9176 /* explosion.mp3 */,
-				0FA600BA23B82BB5004A9176 /* loose.mp3 */,
-				0FA600BC23B82BB6004A9176 /* shotSound.mp3 */,
-				0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */,
-				0FA600B423B828BA004A9176 /* Info.plist */,
-				0FA600A823B828B8004A9176 /* GameScene.swift */,
-				0F06A76E23B93A360055DBCD /* GameOverScene.swift */,
-				0F06A77023B983770055DBCD /* MainMenuScene.swift */,
+				0F06A77823BA92210055DBCD /* Emiters */,
+				0F06A77723BA92000055DBCD /* Scenes */,
+				0F06A77623BA91F00055DBCD /* Sounds */,
 			);
 			path = SpaceGame;
 			sourceTree = "<group>";
