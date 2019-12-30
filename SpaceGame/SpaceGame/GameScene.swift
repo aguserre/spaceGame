@@ -18,7 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let livesLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     var livesNumber = 3
     
-    var levelNumber = 0
+    let LevelLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    var levelNumber = 1
     
     var enemies = ["enemy1","enemy2","enemy3"]
     
@@ -96,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontSize = 70
         scoreLabel.fontColor = SKColor.white
         scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        scoreLabel.position = CGPoint(x: self.size.width * 0.22, y: self.size.height * 0.92 + scoreLabel.frame.size.height)
+        scoreLabel.position = CGPoint(x: self.size.width * 0.22, y: self.size.height * 0.92 + scoreLabel.frame.size.height*4)
         scoreLabel.zPosition = 100
         self.addChild(scoreLabel)
         
@@ -104,13 +105,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         livesLabel.fontSize = 70
         livesLabel.fontColor = SKColor.white
         livesLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
-        livesLabel.position = CGPoint(x: self.size.width * 0.78, y: self.size.height * 0.92 + livesLabel.frame.size.height)
+        livesLabel.position = CGPoint(x: self.size.width * 0.78, y: self.size.height * 0.92 + livesLabel.frame.size.height*4)
         livesLabel.zPosition = 100
         self.addChild(livesLabel)
         
         let moveOnToScreenAction = SKAction.moveTo(y: self.size.height*0.92, duration: 0.3)
         scoreLabel.run(moveOnToScreenAction)
         livesLabel.run(moveOnToScreenAction)
+        
+        LevelLabel.text = "Level: 1"
+        LevelLabel.fontSize = 50
+        LevelLabel.fontColor = SKColor.white
+        LevelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        LevelLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.93 + LevelLabel.frame.size.height*4)
+        LevelLabel.zPosition = 100
+        self.addChild(LevelLabel)
         
         tapToStartLabel.text = "Tap to Begin"
         tapToStartLabel.fontSize = 100
@@ -181,10 +190,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameScore += 1
         scoreLabel.text = "Score: \(gameScore)"
         
-        if gameScore == 10 || gameScore == 30 || gameScore == 60 {
+        if gameScore == 3 || gameScore == 7 || gameScore == 15 || gameScore == 25 || gameScore == 40 {
+            LevelLabel.text = "Level: \(levelNumber)"
             startNewLevel()
         }
-        
     }
     
     func runGameOver(){
@@ -273,6 +282,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 2: levelDuration = 2
         case 3: levelDuration = 1
         case 4: levelDuration = 0.7
+        case 5: levelDuration = 0.3
         default: levelDuration = 0.3
             print("Cannont find level")
         }
@@ -357,6 +367,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if currentGameState == .inGame {
             fireBullet()
         }
+        
+        let moveOnToScreenActionLevel = SKAction.moveTo(y: self.size.height*0.93, duration: 0.3)
+        LevelLabel.run(moveOnToScreenActionLevel)
+        
     }
         
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
