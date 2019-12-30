@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lastUpdateTime: TimeInterval = 0
     var deltaFrameTime: TimeInterval = 0
     var amountToMovePerSecond: CGFloat = 600
+    var enemyWinName = ""
     
     struct PhysicsCategories {
         static let None: UInt32 = 0
@@ -430,6 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: enemies) as! [String]
         
         let enemy = SKSpriteNode(imageNamed: enemies[0])
+        enemyWinName = enemies[0]
         enemy.name = "Enemy"
         enemy.setScale(3)
         enemy.position = startPoint
@@ -490,6 +492,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func changeScene(){
         let sceneToMoveTo = GameOverScene(size: self.size)
+        sceneToMoveTo.enemyWinName = self.enemyWinName
         sceneToMoveTo.scaleMode = self.scaleMode
         let transition = SKTransition.fade(withDuration: 0.5)
         self.view?.presentScene(sceneToMoveTo, transition: transition)

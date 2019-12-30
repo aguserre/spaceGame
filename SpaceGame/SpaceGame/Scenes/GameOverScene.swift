@@ -11,7 +11,8 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     let restartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-
+    var enemyWinName = ""
+    
     override func didMove(to view: SKView) {
         
         let background = SKSpriteNode(imageNamed: "background")
@@ -56,6 +57,13 @@ class GameOverScene: SKScene {
         restartLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.3)
         restartLabel.zPosition = 1
         self.addChild(restartLabel)
+        
+        let enemyWin = SKSpriteNode(imageNamed: enemyWinName)
+        enemyWin.size = CGSize(width: 300, height: 300)
+        enemyWin.position = CGPoint(x: self.size.width/2, y: self.size.height*0.15)
+        enemyWin.zPosition = 1
+        enemyWin.zRotation = CGFloat(-90)
+        self.addChild(enemyWin)
         
     }
     
