@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 var gameScore = 0
 
@@ -63,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: "player")
     let bulletSound = SKAction.playSoundFileNamed("shotSound.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
-    let looseSound = SKAction.playSoundFileNamed("loose.mp3", waitForCompletion: false)
+    let gameOverSound = SKAction.playSoundFileNamed("gameOver.mp3", waitForCompletion: false)
 
     let tapToStartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     
@@ -256,7 +257,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let changeSceneAction = SKAction.run(changeScene)
         let waitToChangeScene = SKAction.wait(forDuration: 1)
-        let changeSceneSequence = SKAction.sequence([waitToChangeScene,changeSceneAction])
+        backingAudio.stop()
+        let changeSceneSequence = SKAction.sequence([waitToChangeScene,gameOverSound, waitToChangeScene,changeSceneAction])
         self.run(changeSceneSequence)
     }
     

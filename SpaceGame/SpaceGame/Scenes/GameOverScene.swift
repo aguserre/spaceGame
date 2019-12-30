@@ -67,6 +67,7 @@ class GameOverScene: SKScene {
                 let sceneToMoveTo = GameScene(size: self.size)
                 sceneToMoveTo.scaleMode = self.scaleMode
                 let myTransition = SKTransition.fade(withDuration: 0.5)
+                backingAudio.play()
                 self.view?.presentScene(sceneToMoveTo, transition: myTransition)
             }
         }

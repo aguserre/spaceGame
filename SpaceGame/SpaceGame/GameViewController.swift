@@ -11,9 +11,11 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 
+var backingAudio = AVAudioPlayer()
+
 class GameViewController: UIViewController {
 
-    var backingAudio = AVAudioPlayer()
+    
     
      override func viewDidLoad() {
        super.viewDidLoad()
@@ -26,7 +28,7 @@ class GameViewController: UIViewController {
         }
         
         backingAudio.numberOfLoops = -1
-        backingAudio.volume = 1
+        backingAudio.volume = 0.3
         backingAudio.play()
         
         if let view = self.view as! SKView? {
