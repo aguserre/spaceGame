@@ -29,7 +29,14 @@ class GameViewController: UIViewController {
         
         backingAudio.numberOfLoops = -1
         backingAudio.volume = 0.3
-        backingAudio.play()
+        
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: "musicOff") {
+            backingAudio.stop()
+        } else {
+            backingAudio.play()
+        }
+        
         
         if let view = self.view as! SKView? {
             let scene = LaunchScreenCustom(size: CGSize(width: 1536, height: 2048))
