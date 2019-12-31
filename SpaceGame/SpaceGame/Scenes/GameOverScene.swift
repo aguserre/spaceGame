@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     let restartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    let mainMenu = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+
     var enemyWinName = ""
     
     override func didMove(to view: SKView) {
@@ -58,6 +60,13 @@ class GameOverScene: SKScene {
         restartLabel.zPosition = 1
         self.addChild(restartLabel)
         
+        mainMenu.text = "Main Menu"
+        mainMenu.fontSize = 70
+        mainMenu.fontColor = .white
+        mainMenu.position = CGPoint(x: self.size.width/2, y: self.size.height*0.25)
+        mainMenu.zPosition = 1
+        self.addChild(mainMenu)
+        
         let enemyWin = SKSpriteNode(imageNamed: enemyWinName)
         enemyWin.size = CGSize(width: 300, height: 300)
         enemyWin.position = CGPoint(x: self.size.width/2, y: self.size.height*0.15)
@@ -75,9 +84,19 @@ class GameOverScene: SKScene {
                 let sceneToMoveTo = GameScene(size: self.size)
                 sceneToMoveTo.scaleMode = self.scaleMode
                 let myTransition = SKTransition.fade(withDuration: 0.5)
-                backingAudio.play()
                 self.view?.presentScene(sceneToMoveTo, transition: myTransition)
             }
+            
+            if mainMenu.contains(pointOfTouch){
+                let sceneToMoveTo = MainMenuScene(size: self.size)
+                sceneToMoveTo.scaleMode = self.scaleMode
+                let myTransition = SKTransition.fade(withDuration: 0.5)
+                self.view?.presentScene(sceneToMoveTo, transition: myTransition)
+            }
+        }
+        let userDefaults = UserDefaults.standard
+        if !userDefaults.bool(forKey: "musicOff") {
+            backingAudio.play()
         }
     }
     
