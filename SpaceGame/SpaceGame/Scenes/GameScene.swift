@@ -67,6 +67,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
     let newLifeSound = SKAction.playSoundFileNamed("newLifeSound.mp3", waitForCompletion: false)
     let gameOverSound = SKAction.playSoundFileNamed("gameOver.mp3", waitForCompletion: false)
+    let enemyHitSound = SKAction.playSoundFileNamed("hitEnemySound.mp3", waitForCompletion: false)
 
     let tapToStartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     
@@ -277,17 +278,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Enemy {
             //Player hit the enemy
-            if body1.node != nil{
-                spawnExplosion(spawnPosition: body1.node!.position)
-            }
-            if body2.node != nil {
-                spawnExplosion(spawnPosition: body2.node!.position)
-            }
             
-            body1.node?.removeFromParent()
-            body2.node?.removeFromParent()
-            
-            runGameOver()
+            if livesNumber <= 0 {
+                if body1.node != nil{
+                    spawnExplosion(spawnPosition: body1.node!.position)
+                }
+                if body2.node != nil {
+                    spawnExplosion(spawnPosition: body2.node!.position)
+                }
+                body1.node?.removeFromParent()
+                body2.node?.removeFromParent()
+                
+                runGameOver()
+            } else {
+                livesNumber = 0
+                livesLabel.text = "Lives: 0"
+                player.run(enemyHitSound)
+                body2.node?.removeFromParent()
+            }
         }
         
         if body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Live {
