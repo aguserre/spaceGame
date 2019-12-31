@@ -194,7 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
         livesLabel.run(scaleSequence)
         
-        if livesNumber == 0{
+        if livesNumber < 0{
             runGameOver()
         }
     }
@@ -404,12 +404,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bullet.run(bulletSequence)
     }
     
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random())) / 0xFFFFFFFF
+    func random() -> Float {
+        return Float(arc4random()) / 0xFFFFFFFF
     }
     
     func randomNumber(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
+        return CGFloat(random()) * (max - min) + min
     }
     
     func spawnLive(){
