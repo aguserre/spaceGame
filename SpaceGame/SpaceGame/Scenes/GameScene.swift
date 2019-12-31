@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var livesNumber = 3
     
     let LevelLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-    var levelNumber = 1
+    var levelNumber = 0
     
     var enemies = ["enemy1","enemy2","enemy3"]
     
@@ -217,7 +217,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameScore == 25 ||  //level 5
             gameScore == 40 {   //level 6
                 LevelLabel.text = "Level: \(levelNumber)"
-                changeEnemies()
                 startNewLevel()
         }
     }
@@ -226,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies.removeAll()
         switch levelNumber {
         case 1:
-            return
+            enemies = ["enemy1","enemy2","enemy3"]
         case 2:
             enemies = ["enemy4"]
         case 3:
@@ -332,17 +331,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.removeAction(forKey: "spawnLives")
         }
         
+        
         var levelDuration = TimeInterval()
         let liveSpawnDuration: TimeInterval = 5
-        
-        switch levelNumber {
-        case 1: levelDuration = 3
-        case 2: levelDuration = 2
-        case 3: levelDuration = 1
-        case 4: levelDuration = 0.8
-        case 5: levelDuration = 0.5
-        default: levelDuration = 0.2
-            print("Cannont find level")
+
+        if UserDefaults.standard.bool(forKey: "hard"){
+            
+            switch levelNumber {
+                case 1: levelDuration = 2
+                case 2: levelDuration = 1.5
+                case 3: levelDuration = 1
+                case 4: levelDuration = 0.7
+                case 5: levelDuration = 0.4
+                default: levelDuration = 0.2
+                    print("Cannont find level")
+            }
+        } else {
+            switch levelNumber {
+                case 1: levelDuration = 3
+                case 2: levelDuration = 2
+                case 3: levelDuration = 1
+                case 4: levelDuration = 0.8
+                case 5: levelDuration = 0.5
+                default: levelDuration = 0.2
+                    print("Cannont find level")
+            }
+            changeEnemies()
         }
         
         let spawn = SKAction.run(spawnEnemy)
