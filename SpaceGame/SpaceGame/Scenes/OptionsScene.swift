@@ -17,7 +17,11 @@ class OptionsScnene: SKScene {
     let difficultyLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let musicButton = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let musicLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-
+    let choosePlayerButton = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    
+    var characterArray = ["player", "enemy1", "enemy2","enemy3","enemy4","enemy5","enemy6" ,"enemy7"]
+    var selector = -1
+    
     override func didMove(to view: SKView) {
         
         let background = SKSpriteNode(imageNamed: "background")
@@ -77,6 +81,38 @@ class OptionsScnene: SKScene {
         closeOptions.zPosition = 1
         self.addChild(closeOptions)
         
+        choosePlayerButton.text = "Choose ship"
+        choosePlayerButton.fontSize = 80
+        choosePlayerButton.fontColor = .systemPink
+        choosePlayerButton.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.35)
+        choosePlayerButton.zPosition = 1
+        self.addChild(choosePlayerButton)
+        
+        changePlayer()
+    }
+    
+    func setPlayer(){
+        let playerSelected = SKSpriteNode(imageNamed: playerSelect)
+        playerSelected.name = "ship"
+        playerSelected.size = CGSize(width: 250, height: 250)
+        playerSelected.position = CGPoint(x: self.size.width/2, y: self.size.height*0.32 - choosePlayerButton.frame.size.height)
+        playerSelected.zPosition = 1
+        playerSelected.zRotation = CGFloat(-90)
+        self.addChild(playerSelected)
+    }
+    
+    func changePlayer(){
+        if selector < 7{
+            selector += 1
+        } else {
+            selector = 0
+        }
+        playerSelect = characterArray[selector]
+        
+        if let child = self.childNode(withName: "ship") as? SKSpriteNode {
+            child.removeFromParent()
+        }
+        setPlayer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,6 +132,9 @@ class OptionsScnene: SKScene {
            
             if musicButton.contains(pointOfTouch){
                 setUpMusic()
+            }
+            if choosePlayerButton.contains(pointOfTouch){
+                changePlayer()
             }
         }
     }
