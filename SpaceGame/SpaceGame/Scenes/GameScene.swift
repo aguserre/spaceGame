@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: playerSelect)
     let bulletSound = SKAction.playSoundFileNamed("shotSound.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
+    let newLifeSound = SKAction.playSoundFileNamed("newLifeSound.mp3", waitForCompletion: false)
     let gameOverSound = SKAction.playSoundFileNamed("gameOver.mp3", waitForCompletion: false)
 
     let tapToStartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
@@ -203,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
         let scaleDown = SKAction.scale(to: 1, duration: 0.2)
-        let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
+        let scaleSequence = SKAction.sequence([newLifeSound ,scaleUp, scaleDown])
         livesLabel.run(scaleSequence)
     }
     
