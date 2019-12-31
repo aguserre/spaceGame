@@ -12,6 +12,7 @@ import SpriteKit
 class GameOverScene: SKScene {
     let restartLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let mainMenu = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    let winLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
 
     var enemyWinName = ""
     
@@ -48,22 +49,22 @@ class GameOverScene: SKScene {
         let highScoreLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
         highScoreLabel.text = "High Score: \(highScoreNumber)"
         highScoreLabel.fontSize = 90
-        highScoreLabel.fontColor = .white
-        highScoreLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.45)
+        highScoreLabel.fontColor = .systemPink
+        highScoreLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.50)
         highScoreLabel.zPosition = 1
         self.addChild(highScoreLabel)
         
         restartLabel.text = "Restart"
         restartLabel.fontSize = 70
-        restartLabel.fontColor = .white
-        restartLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.3)
+        restartLabel.fontColor = .cyan
+        restartLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.35)
         restartLabel.zPosition = 1
         self.addChild(restartLabel)
         
         mainMenu.text = "Main Menu"
         mainMenu.fontSize = 70
-        mainMenu.fontColor = .white
-        mainMenu.position = CGPoint(x: self.size.width/2, y: self.size.height*0.25)
+        mainMenu.fontColor = .systemYellow
+        mainMenu.position = CGPoint(x: self.size.width/2, y: self.size.height*0.30)
         mainMenu.zPosition = 1
         self.addChild(mainMenu)
         
@@ -73,6 +74,13 @@ class GameOverScene: SKScene {
         enemyWin.zPosition = 1
         enemyWin.zRotation = CGFloat(-90)
         self.addChild(enemyWin)
+        
+        winLabel.text = "Win"
+        winLabel.fontSize = 50
+        winLabel.fontColor = .lightGray
+        winLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.15 - enemyWin.frame.size.height/2)
+        winLabel.zPosition = 1
+        self.addChild(winLabel)
         
     }
     

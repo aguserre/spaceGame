@@ -73,29 +73,29 @@ class OptionsScnene: SKScene {
         musicLabel.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.50 - musicButton.frame.size.height)
         musicLabel.zPosition = 1
         self.addChild(musicLabel)
-        
-        closeOptions.text = "Save"
-        closeOptions.fontSize = 60
-        closeOptions.fontColor = .white
-        closeOptions.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.15)
-        closeOptions.zPosition = 1
-        self.addChild(closeOptions)
-        
+                
         choosePlayerButton.text = "Choose ship"
         choosePlayerButton.fontSize = 80
-        choosePlayerButton.fontColor = .systemPink
+        choosePlayerButton.fontColor = .systemOrange
         choosePlayerButton.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.35)
         choosePlayerButton.zPosition = 1
         self.addChild(choosePlayerButton)
         
         changePlayer()
+        
+        closeOptions.text = "Save"
+        closeOptions.fontSize = 55
+        closeOptions.fontColor = .white
+        closeOptions.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.10)
+        closeOptions.zPosition = 1
+        self.addChild(closeOptions)
     }
     
     func setPlayer(){
         let playerSelected = SKSpriteNode(imageNamed: playerSelect)
         playerSelected.name = "ship"
         playerSelected.size = CGSize(width: 250, height: 250)
-        playerSelected.position = CGPoint(x: self.size.width/2, y: self.size.height*0.32 - choosePlayerButton.frame.size.height)
+        playerSelected.position = CGPoint(x: self.size.width/2, y: self.size.height*0.30 - choosePlayerButton.frame.size.height)
         playerSelected.zPosition = 1
         playerSelected.zRotation = CGFloat(-90)
         self.addChild(playerSelected)
@@ -113,30 +113,6 @@ class OptionsScnene: SKScene {
             child.removeFromParent()
         }
         setPlayer()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       
-        for touch: AnyObject in touches{
-            let pointOfTouch = touch.location(in: self)
-            
-            if closeOptions.contains(pointOfTouch){
-                let sceneToMoveTo = MainMenuScene(size: self.size)
-                sceneToMoveTo.scaleMode = self.scaleMode
-                let myTransition = SKTransition.fade(withDuration: 0.5)
-                self.view?.presentScene(sceneToMoveTo, transition: myTransition)
-            }
-            if difficultyButton.contains(pointOfTouch){
-                changeDifficulty()
-            }
-           
-            if musicButton.contains(pointOfTouch){
-                setUpMusic()
-            }
-            if choosePlayerButton.contains(pointOfTouch){
-                changePlayer()
-            }
-        }
     }
     
     func changeDifficulty(){
@@ -167,4 +143,27 @@ class OptionsScnene: SKScene {
         userDefaults.synchronize()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
+        for touch: AnyObject in touches{
+            let pointOfTouch = touch.location(in: self)
+            
+            if closeOptions.contains(pointOfTouch){
+                let sceneToMoveTo = MainMenuScene(size: self.size)
+                sceneToMoveTo.scaleMode = self.scaleMode
+                let myTransition = SKTransition.fade(withDuration: 0.5)
+                self.view?.presentScene(sceneToMoveTo, transition: myTransition)
+            }
+            if difficultyButton.contains(pointOfTouch){
+                changeDifficulty()
+            }
+           
+            if musicButton.contains(pointOfTouch){
+                setUpMusic()
+            }
+            if choosePlayerButton.contains(pointOfTouch){
+                changePlayer()
+            }
+        }
+    }
 }
