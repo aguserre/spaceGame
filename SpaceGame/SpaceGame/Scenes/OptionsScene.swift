@@ -9,17 +9,14 @@
 import Foundation
 import SpriteKit
 
-var difficulty = ""
-
 class OptionsScnene: SKScene {
 
     let settingsLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let closeOptions = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-    let difficultyButton = SKSpriteNode(imageNamed: "difficultyButton")
+    let difficultyButton = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let difficultyLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-    let music = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-
-
+    let musicButton = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    let musicLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
 
     override func didMove(to view: SKView) {
         
@@ -31,20 +28,17 @@ class OptionsScnene: SKScene {
         
         settingsLabel.text = "Settings"
         settingsLabel.fontSize = 200
-        if #available(iOS 13.0, *) {
-            settingsLabel.fontColor = .systemIndigo
-        } else {
-            settingsLabel.fontColor = .systemPink
-        }
+        settingsLabel.fontColor = .cyan
         settingsLabel.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.75)
         settingsLabel.zPosition = 1
         self.addChild(settingsLabel)
         
-        difficultyButton.size = CGSize(width: self.size.width*0.4, height: 160)
+        difficultyButton.text = "Difficulty"
+        difficultyButton.fontSize = 80
+        difficultyButton.fontColor = .systemPurple
         difficultyButton.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.65)
         difficultyButton.zPosition = 1
         self.addChild(difficultyButton)
-        
         
         let userDefaults = UserDefaults.standard
         if userDefaults.bool(forKey: "hard") {
@@ -58,26 +52,33 @@ class OptionsScnene: SKScene {
         difficultyLabel.zPosition = 1
         self.addChild(difficultyLabel)
         
+        musicButton.text = "Music On/Off"
+        musicButton.fontSize = 80
+        musicButton.fontColor = .systemPink
+        musicButton.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.50)
+        musicButton.zPosition = 1
+        self.addChild(musicButton)
+        
         if userDefaults.bool(forKey: "musicOff") {
-            music.text = "Music Off"
+            musicLabel.text = "Off"
         } else {
-            music.text = "Music On"
+            musicLabel.text = "On"
         }
-        music.fontSize = 60
-        music.fontColor = .white
-        music.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.4)
-        music.zPosition = 1
-        self.addChild(music)
+        musicLabel.fontSize = 60
+        musicLabel.fontColor = .white
+        musicLabel.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.50 - musicButton.frame.size.height)
+        musicLabel.zPosition = 1
+        self.addChild(musicLabel)
         
         closeOptions.text = "Save"
-        closeOptions.fontSize = 80
+        closeOptions.fontSize = 60
         closeOptions.fontColor = .white
-        closeOptions.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.2)
+        closeOptions.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.15)
         closeOptions.zPosition = 1
         self.addChild(closeOptions)
         
-        
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
        
         for touch: AnyObject in touches{
@@ -93,7 +94,7 @@ class OptionsScnene: SKScene {
                 changeDifficulty()
             }
            
-            if music.contains(pointOfTouch){
+            if musicButton.contains(pointOfTouch){
                 setUpMusic()
             }
         }
@@ -115,12 +116,12 @@ class OptionsScnene: SKScene {
     func setUpMusic(){
         let userDefaults = UserDefaults.standard
         
-        if music.text == "Music On"{
-            music.text = "Music Off"
+        if musicLabel.text == "On"{
+            musicLabel.text = "Off"
             backingAudio.stop()
             userDefaults.set(true, forKey: "musicOff")
         } else {
-            music.text = "Music On"
+            musicLabel.text = "On"
             backingAudio.play()
             userDefaults.set(false, forKey: "musicOff")
         }

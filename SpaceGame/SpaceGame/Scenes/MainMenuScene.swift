@@ -9,13 +9,16 @@
 import Foundation
 import SpriteKit
 
+var playerSelect = "player"
+
 class MainMenuScene: SKScene {
+    
     let startGame = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let options = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-
     let gameName1 = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let gameBy = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let gameName2 = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+    let newGameButton = SKSpriteNode(imageNamed: "newGameButton")
 
 
     override func didMove(to view: SKView) {
@@ -51,22 +54,26 @@ class MainMenuScene: SKScene {
         gameName2.zPosition = 1
         self.addChild(gameName2)
         
-        startGame.text = "Start Game"
-        startGame.fontSize = 100
-        startGame.fontColor = .white
-        startGame.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.4)
-        startGame.zPosition = 1
-        startGame.name = "startButton"
-        self.addChild(startGame)
+        newGameButton.size = CGSize(width: self.size.width*0.4, height: 250)
+        newGameButton.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.4)
+        newGameButton.zPosition = 1
+        self.addChild(newGameButton)
         
-        options.text = "Options"
-        options.fontSize = 80
-        options.fontColor = .white
-        options.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.3)
+        options.text = "Settings"
+        options.fontSize = 70
+        options.fontColor = .cyan
+        options.alpha = 0.9
+        options.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.27)
         options.zPosition = 1
         options.name = "optionsBUtton"
         self.addChild(options)
         
+        let playerImage = SKSpriteNode(imageNamed: playerSelect)
+        playerImage.size = CGSize(width: 250, height: 250)
+        playerImage.position = CGPoint(x: self.size.width/2, y: self.size.height*0.15)
+        playerImage.zPosition = 1
+        playerImage.zRotation = CGFloat(-90)
+        self.addChild(playerImage)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -74,7 +81,7 @@ class MainMenuScene: SKScene {
         for touch: AnyObject in touches{
             let pointOfTouch = touch.location(in: self)
             
-            if startGame.contains(pointOfTouch){
+            if newGameButton.contains(pointOfTouch){
                 let sceneToMoveTo = GameScene(size: self.size)
                 sceneToMoveTo.scaleMode = self.scaleMode
                 let myTransition = SKTransition.fade(withDuration: 0.5)
