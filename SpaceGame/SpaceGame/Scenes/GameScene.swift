@@ -394,7 +394,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.categoryBitMask = PhysicsCategories.Bullet
-        bullet.physicsBody?.collisionBitMask = PhysicsCategories.None
+        bullet.physicsBody?.collisionBitMask = PhysicsCategories.Live
         bullet.physicsBody?.contactTestBitMask = PhysicsCategories.Enemy
         self.addChild(bullet)
         
@@ -427,7 +427,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         live.physicsBody = SKPhysicsBody(rectangleOf: live.size)
         live.physicsBody?.affectedByGravity = false
         live.physicsBody?.categoryBitMask = PhysicsCategories.Live
-        live.physicsBody?.collisionBitMask = PhysicsCategories.Enemy
+        live.physicsBody?.collisionBitMask = PhysicsCategories.Enemy | PhysicsCategories.Bullet
         live.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         self.addChild(live)
         
