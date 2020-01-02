@@ -27,6 +27,7 @@
 		0FA600B323B828BA004A9176 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600B123B828BA004A9176 /* LaunchScreen.storyboard */; };
 		0FA600BE23B82BB6004A9176 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600BB23B82BB5004A9176 /* explosion.mp3 */; };
 		0FA600C123B85242004A9176 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600C023B85242004A9176 /* Explosion.sks */; };
+		0FF6047A23BE2D3A000A9B75 /* IphoneModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		0FA600B423B828BA004A9176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FA600BB23B82BB5004A9176 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		0FA600C023B85242004A9176 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IphoneModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 		0FA600A123B828B8004A9176 /* SpaceGame */ = {
 			isa = PBXGroup;
 			children = (
+				0FF6047823BE2D00000A9B75 /* Extensions */,
 				0FA600B423B828BA004A9176 /* Info.plist */,
 				0FA600A223B828B8004A9176 /* AppDelegate.swift */,
 				0FA600AA23B828B8004A9176 /* GameViewController.swift */,
@@ -131,6 +134,14 @@
 				0F06A77623BA91F00055DBCD /* Sounds */,
 			);
 			path = SpaceGame;
+			sourceTree = "<group>";
+		};
+		0FF6047823BE2D00000A9B75 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +229,7 @@
 				0F23905323BB85AE00F1C806 /* OptionsScene.swift in Sources */,
 				0FA600A923B828B8004A9176 /* GameScene.swift in Sources */,
 				0FA600AB23B828B8004A9176 /* GameViewController.swift in Sources */,
+				0FF6047A23BE2D3A000A9B75 /* IphoneModels.swift in Sources */,
 				0F06A76F23B93A360055DBCD /* GameOverScene.swift in Sources */,
 				0FA600A323B828B8004A9176 /* AppDelegate.swift in Sources */,
 				0F186BF123BABA2C00BCB311 /* LaunchScreenCustom.swift in Sources */,

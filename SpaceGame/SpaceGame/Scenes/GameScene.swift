@@ -97,10 +97,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(background)
         }
         
-        
         //SetUp Player
         player.setScale(3)
-        player.position = CGPoint(x: self.size.width/2, y: 0 - player.size.height)
+        player.position = CGPoint(x: self.size.width/2, y: 0 - player.size.height*0.6)
         player.zPosition = 2
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.affectedByGravity = false
@@ -355,6 +354,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 default: levelDuration = 0.2
                     print("Cannont find level")
             }
+            changeEnemies()
+            
         } else {
             switch levelNumber {
                 case 1: levelDuration = 3
@@ -388,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bullet = SKSpriteNode(imageNamed: "torpedo")
         bullet.name = "Bullet"
         bullet.setScale(1)
-        bullet.position = CGPoint(x: player.position.x, y: player.position.y + player.position.y/2)
+        bullet.position = CGPoint(x: player.position.x, y: player.position.y + player.size.height*1.5)
         bullet.zPosition = 1
         bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
         bullet.physicsBody?.affectedByGravity = false
@@ -426,7 +427,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         live.physicsBody = SKPhysicsBody(rectangleOf: live.size)
         live.physicsBody?.affectedByGravity = false
         live.physicsBody?.categoryBitMask = PhysicsCategories.Live
-        live.physicsBody?.collisionBitMask = PhysicsCategories.None
+        live.physicsBody?.collisionBitMask = PhysicsCategories.Enemy
         live.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         self.addChild(live)
         
@@ -462,7 +463,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
         enemy.physicsBody?.affectedByGravity = false
         enemy.physicsBody?.categoryBitMask = PhysicsCategories.Enemy
-        enemy.physicsBody?.collisionBitMask = PhysicsCategories.None
+        enemy.physicsBody?.collisionBitMask = PhysicsCategories.Live
         enemy.physicsBody?.contactTestBitMask = PhysicsCategories.Player | PhysicsCategories.Bullet
         self.addChild(enemy)
         
@@ -519,103 +520,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sceneToMoveTo.scaleMode = self.scaleMode
         let transition = SKTransition.fade(withDuration: 0.5)
         self.view?.presentScene(sceneToMoveTo, transition: transition)
-        
     }
-    
 }
 
-public enum Model : String {
-
-//Simulator
-case simulator     = "simulator/sandbox",
-//iPhone
-iPhone4            = "iPhone 4",
-iPhone4S           = "iPhone 4S",
-iPhone5            = "iPhone 5",
-iPhone5S           = "iPhone 5S",
-iPhone5C           = "iPhone 5C",
-iPhone6            = "iPhone 6",
-iPhone6Plus        = "iPhone 6 Plus",
-iPhone6S           = "iPhone 6S",
-iPhone6SPlus       = "iPhone 6S Plus",
-iPhoneSE           = "iPhone SE",
-iPhone7            = "iPhone 7",
-iPhone7Plus        = "iPhone 7 Plus",
-iPhone8            = "iPhone 8",
-iPhone8Plus        = "iPhone 8 Plus",
-iPhoneX            = "iPhone X",
-iPhoneXS           = "iPhone XS",
-iPhoneXSMax        = "iPhone XS Max",
-iPhoneXR           = "iPhone XR",
-iPhone11           = "iPhone 11",
-iPhone11Pro        = "iPhone 11 Pro",
-iPhone11ProMax     = "iPhone 11 Pro Max",
-
-unrecognized       = "?unrecognized?"
-}
-
-public extension UIDevice {
-
-var type: Model {
-    var systemInfo = utsname()
-    uname(&systemInfo)
-    let modelCode = withUnsafePointer(to: &systemInfo.machine) {
-        $0.withMemoryRebound(to: CChar.self, capacity: 1) {
-            ptr in String.init(validatingUTF8: ptr)
-        }
-    }
-
-    let modelMap : [String: Model] = [
-
-        //Simulator
-        "i386"      : .simulator,
-        "x86_64"    : .simulator,
-
-        //iPhone
-        "iPhone3,1" : .iPhone4,
-        "iPhone3,2" : .iPhone4,
-        "iPhone3,3" : .iPhone4,
-        "iPhone4,1" : .iPhone4S,
-        "iPhone5,1" : .iPhone5,
-        "iPhone5,2" : .iPhone5,
-        "iPhone5,3" : .iPhone5C,
-        "iPhone5,4" : .iPhone5C,
-        "iPhone6,1" : .iPhone5S,
-        "iPhone6,2" : .iPhone5S,
-        "iPhone7,1" : .iPhone6Plus,
-        "iPhone7,2" : .iPhone6,
-        "iPhone8,1" : .iPhone6S,
-        "iPhone8,2" : .iPhone6SPlus,
-        "iPhone8,4" : .iPhoneSE,
-        "iPhone9,1" : .iPhone7,
-        "iPhone9,3" : .iPhone7,
-        "iPhone9,2" : .iPhone7Plus,
-        "iPhone9,4" : .iPhone7Plus,
-        "iPhone10,1" : .iPhone8,
-        "iPhone10,4" : .iPhone8,
-        "iPhone10,2" : .iPhone8Plus,
-        "iPhone10,5" : .iPhone8Plus,
-        "iPhone10,3" : .iPhoneX,
-        "iPhone10,6" : .iPhoneX,
-        "iPhone11,2" : .iPhoneXS,
-        "iPhone11,4" : .iPhoneXSMax,
-        "iPhone11,6" : .iPhoneXSMax,
-        "iPhone11,8" : .iPhoneXR,
-        "iPhone12,1" : .iPhone11,
-        "iPhone12,3" : .iPhone11Pro,
-        "iPhone12,5" : .iPhone11ProMax
-    ]
-
-    if let model = modelMap[String.init(validatingUTF8: modelCode!)!] {
-        if model == .simulator {
-            if let simModelCode = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
-                if let simModel = modelMap[String.init(validatingUTF8: simModelCode)!] {
-                    return simModel
-                }
-            }
-        }
-        return model
-    }
-    return Model.unrecognized
-  }
-}
