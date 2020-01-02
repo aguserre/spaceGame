@@ -19,7 +19,7 @@ class OptionsScnene: SKScene {
     let musicLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let choosePlayerButton = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     
-    var characterArray = ["player", "enemy1", "enemy2","enemy3","enemy4","enemy5","enemy6" ,"enemy7"]
+    var characterArray = ["Ovni", "Ovni Blue", "Alien Green", "Big Uron", "Nariz San", "Don Labius","Mr.Bolivia","Sancho", "Sir Charla","Dr.Frente" ]
     var selector = -1
     
     override func didMove(to view: SKView) {
