@@ -28,6 +28,7 @@
 		0FA600BE23B82BB6004A9176 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600BB23B82BB5004A9176 /* explosion.mp3 */; };
 		0FA600C123B85242004A9176 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FA600C023B85242004A9176 /* Explosion.sks */; };
 		0FF6047A23BE2D3A000A9B75 /* IphoneModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */; };
+		0FF6047C23BE50A2000A9B75 /* EnemyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6047B23BE50A2000A9B75 /* EnemyNames.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		0FA600BB23B82BB5004A9176 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		0FA600C023B85242004A9176 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 		0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IphoneModels.swift; sourceTree = "<group>"; };
+		0FF6047B23BE50A2000A9B75 /* EnemyNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNames.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				0FF6047923BE2D3A000A9B75 /* IphoneModels.swift */,
+				0FF6047B23BE50A2000A9B75 /* EnemyNames.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				0F06A77123B983770055DBCD /* MainMenuScene.swift in Sources */,
 				0F23905323BB85AE00F1C806 /* OptionsScene.swift in Sources */,
 				0FA600A923B828B8004A9176 /* GameScene.swift in Sources */,
+				0FF6047C23BE50A2000A9B75 /* EnemyNames.swift in Sources */,
 				0FA600AB23B828B8004A9176 /* GameViewController.swift in Sources */,
 				0FF6047A23BE2D3A000A9B75 /* IphoneModels.swift in Sources */,
 				0F06A76F23B93A360055DBCD /* GameOverScene.swift in Sources */,

@@ -75,7 +75,7 @@ class GameOverScene: SKScene {
         enemyWin.zRotation = CGFloat(-90)
         self.addChild(enemyWin)
         
-        winLabel.text = "Win"
+        winLabel.text = "Winner: \(enemyWinName)"
         winLabel.fontSize = 50
         winLabel.fontColor = .lightGray
         winLabel.position = CGPoint(x: self.size.width/2, y: self.size.height*0.15 - enemyWin.frame.size.height/2)

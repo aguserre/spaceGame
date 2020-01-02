@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let LevelLabel = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     var levelNumber = 0
     
-    var enemies = ["enemy1","enemy2","enemy3"]
+    var enemies = ["Ovni", "Ovni Blue", "Alien Green"]
     
     var lastUpdateTime: TimeInterval = 0
     var deltaFrameTime: TimeInterval = 0
@@ -226,17 +226,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies.removeAll()
         switch levelNumber {
         case 1:
-            enemies = ["enemy1","enemy2","enemy3"]
+            enemies = ["Ovni", "Ovni Blue", "Alien Green"]
         case 2:
-            enemies = ["enemy4"]
+            enemies = ["Big Uron" , "Nariz San"]
         case 3:
-            enemies = ["enemy5"]
+            enemies = ["Don Labius", "Mr.Bolivia"]
         case 4:
-            enemies = ["enemy6"]
+            enemies = ["Sancho", "Sir Charla"]
         case 5:
-            enemies = ["enemy7"]
+            enemies = ["Dr.Frente"]
         default:
-            enemies = ["enemy1","enemy2","enemy3","enemy4" ,"enemy5" ,"enemy6", "enemy7"]
+            enemies = ["Ovni", "Ovni Blue", "Alien Green", "Big Uron", "Nariz San", "Don Labius","Mr.Bolivia","Sancho", "Sir Charla","Dr.Frente" ]
         }
     }
     
